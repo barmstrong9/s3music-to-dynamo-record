@@ -1,0 +1,12 @@
+version: 0.2
+phases:
+  pre_build:
+    commands:
+      - go get -v ./...
+  build:
+    commands:
+      - GOOS=linux GOARCH=amd64 go build -o main
+      - zip deployment.zip main
+artifacts:
+  files:
+    - deployment.zip
