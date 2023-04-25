@@ -1,25 +1,24 @@
 package main
 
 import (
+	"errors"
 	"log"
-	"context"
 
-	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/aws/aws-lambda-go/events"
+	"github.com/aws/aws-lambda-go/lambda"
 )
 
 func main() {
-	lambda.Start(Handler)
+	lambda.Start(handler)
 }
 
-func Handler(ctx context.Context, s3Event events.S3Event) {
+func handler(s3Event events.S3Event) error{
+	if len(s3Event.Records) == 0 {
+		return errors.New("invalid response, S3 Event is empty")
+	}
 	for _, record := range s3Event.Records {
 		s3 := record.S3
 		log.Printf("[%s - %s] Bucket = %s, Key = %s \n", record.EventSource, record.EventTime, s3.Bucket.Name, s3.Object.Key)
+	}
+	return nil
 }
-}
-
-//Remember to do
-// GOOS=linux go build -o build/main cmd/main.go
-// zip -jrm build/main.zip build/main
-// Then upload to s3 if CI/CD has not been set up.
