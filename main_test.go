@@ -7,14 +7,14 @@ import (
 	"testing"
 
 	"github.com/aws/aws-lambda-go/events"
-	"github.com/s3music-to-dynamo-record/helpers"
+	"github.com/s3music-to-dynamo-record/helpers/s3helpers"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestMain(m *testing.M) {
 	flag.Parse()
 
-	helpers.CreateMockSession()
+	s3helpers.CreateMockSession()
 
 	exitCode := m.Run()
 
