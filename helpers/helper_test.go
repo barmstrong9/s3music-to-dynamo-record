@@ -38,7 +38,7 @@ func TestGetSongFromS3(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		output := GetSongFromS3(test.input)
-		assert.Equal(t, test.expected, output)
+		_, err := GetSongFromS3(test.input)
+		assert.Equal(t, test.expected, err)
 	}
 }

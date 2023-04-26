@@ -3,7 +3,6 @@ package s3helpers
 import (
 	"bytes"
 	"io/ioutil"
-	"log"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/awserr"
@@ -46,9 +45,7 @@ func CreateMockSession() {
 
 func (m *mockS3API) GetObject(input *s3.GetObjectInput) (*s3.GetObjectOutput, error) {
 	if bucket, ok := m.mockBucket[*input.Bucket]; ok {
-		log.Println(*input.Key)
 		if obj, ok := bucket[*input.Key]; ok {
-			log.Println(input.Key)
 			return &s3.GetObjectOutput{
 				Body: ioutil.NopCloser(bytes.NewReader(obj)),
 			}, nil
