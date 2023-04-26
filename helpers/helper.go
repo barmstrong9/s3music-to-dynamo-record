@@ -2,6 +2,7 @@ package helpers
 
 import (
 	"errors"
+	"log"
 	"strconv"
 
 	"github.com/aws/aws-sdk-go/service/s3"
@@ -29,6 +30,7 @@ func GetSongFromS3(key string) (s3.GetObjectOutput, error){
 }
 
 func GetMetadata(s3Output *s3.GetObjectOutput) (string, int, string, error) {
+	log.Println(s3Output.Metadata)
 	author, ok1 := s3Output.Metadata["Author"]
 	durationStr, ok2 := s3Output.Metadata["Duration"]
 	genre, ok3 := s3Output.Metadata["Genre"]
