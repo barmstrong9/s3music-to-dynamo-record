@@ -37,7 +37,7 @@ func TestHandler(t *testing.T) {
 								Name: "redheadrhythms-music",
 							},
 							Object: events.S3Object{
-								Key: "01+-+Robot+Rock+_+Oh+Yeah.mp3",
+								Key: "01_Robot_Rock_Oh_Yeah.mp3",
 							},
 						},
 					},
@@ -56,7 +56,6 @@ func TestHandler(t *testing.T) {
 	for _, test := range tests {
 		output := handler(test.input)
 
-		assert.Equal(t, test.expected, output)
 		assert.Equal(t, test.expected, output)
 	}
 }
