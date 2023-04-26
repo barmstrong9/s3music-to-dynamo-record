@@ -23,7 +23,7 @@ func GetSongFromS3(key string) error {
 	if err != nil {
 		return nil
 	}
-	log.Println(output.Metadata["Authors"], "RIGHT HERE")
+	log.Println(output.Metadata, "RIGHT HERE")
 
 	return nil
 }
