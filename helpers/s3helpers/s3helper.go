@@ -3,6 +3,7 @@ package s3helpers
 import (
 	"bytes"
 	"io/ioutil"
+	"log"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/awserr"
@@ -14,7 +15,7 @@ import (
 var (
 	s3Session	s3iface.S3API
 	awsRegion	= util.GetEnv("AWS_DEFAULT_REGION", "eu-west-1")
-	S3MusicBucket	= util.GetEnv("S3_MUSIC_BUCKET", "redheadrhythms-music")
+	S3MusicBucket	= util.GetEnv("redheadrhythms-music", "redheadrhythms-music")
 )
 
 type mockBucket map[string][]byte
@@ -38,14 +39,16 @@ func GetSession() s3iface.S3API {
 func CreateMockSession() {
 	s3Session = &mockS3API{
 		S3API: nil,
-		mockBucket:  map[string]mockBucket{S3MusicBucket: {"key": []byte("song.mp3")}},
+		mockBucket:  map[string]mockBucket{S3MusicBucket: {"01_Robot_Rock_Oh_Yeah.mp3": []byte("some mp3 data")}},
 	}
 }
 
 
 func (m *mockS3API) GetObject(input *s3.GetObjectInput) (*s3.GetObjectOutput, error) {
 	if bucket, ok := m.mockBucket[*input.Bucket]; ok {
+		log.Println(*input.Key)
 		if obj, ok := bucket[*input.Key]; ok {
+			log.Println(input.Key)
 			return &s3.GetObjectOutput{
 				Body: ioutil.NopCloser(bytes.NewReader(obj)),
 			}, nil
