@@ -17,7 +17,7 @@ jobs:
         with:
           go-version: ${{ matrix.go-version }}
       - name: build
-        run: go build -o main
+        run: CGO_ENABLED=0 go build -o main
       - name: zip
         uses: montudor/action-zip@v0.1.0
         with:
