@@ -2,9 +2,11 @@ package helpers
 
 import (
 	"flag"
-	"testing"
 	"os"
+	"testing"
 
+	"github.com/aws/aws-sdk-go/aws/awserr"
+	"github.com/aws/aws-sdk-go/service/s3"
 	"github.com/s3music-to-dynamo-record/helpers/s3helpers"
 	"github.com/stretchr/testify/assert"
 )
@@ -28,6 +30,10 @@ func TestGetSongFromS3(t *testing.T) {
 		{
 			"01_Robot_Rock_Oh_Yeah.mp3",
 			nil,
+		},
+		{
+			"",
+			awserr.New(s3.ErrCodeNoSuchKey, "The specified key does not exist.", nil),
 		},
 	}
 
