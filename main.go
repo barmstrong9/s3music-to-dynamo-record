@@ -22,7 +22,16 @@ func handler(s3Event events.S3Event) error{
 	for _, record := range s3Event.Records {
 		s3Record := record.S3
 		log.Printf("[%s - %s] Bucket = %s, Key = %s \n", record.EventSource, record.EventTime, s3Record.Bucket.Name, s3Record.Object.Key)
-		helpers.GetSongFromS3(s3Record.Object.Key)
+		objectOutput, err := helpers.GetSongFromS3(s3Record.Object.Key)
+		if err != nil {
+			return err
+		}
+		artist, duration, genre, err := helpers.GetMetadata(&objectOutput)
+		if err != nil {
+			return err
+		}
+
+		log.Println(artist, duration, genre, "HERE MAN")
 	}
 	return nil
 }
